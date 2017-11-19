@@ -33,6 +33,6 @@ import { GreeterComponent } from './greeter/greeter.component';
     HttpModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
