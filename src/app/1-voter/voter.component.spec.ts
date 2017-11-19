@@ -1,5 +1,6 @@
 import { VoterComponent } from './voter.component';
 import {TestBed, ComponentFixture} from "@angular/core/testing";
+import {By} from "@angular/platform-browser";
 
 describe('VoterComponent', () => {
   let component: VoterComponent;
@@ -16,7 +17,30 @@ describe('VoterComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('', () => {
+  it('should render total votes', () => {
+    component.othersVote = 20;
+    component.myVote = 1;
+    fixture.detectChanges();
 
+    // first element that matches predicate, queryAll <-- all elements
+    let de = fixture.debugElement.query(By.css('.vote-count'));
+    let el:HTMLElement = de.nativeElement;
+
+    expect(el.innerText).toContain('21');
+  });
+
+  it('should highlight upvote button if I have upvoted', () => {
+    component.myVote = 1;
+    fixture.detectChanges();
+
+    let de = fixture.debugElement.query(By.css('.glyphicon-menu-up'));
+    expect(de.classes['highlighted']).toBeTruthy();
+  });
+
+  it('should increase total vote when I click upvote button', () => {
+    let button = fixture.debugElement.query(By.css('.glyphicon-menu-up'));
+    button.triggerEventHandler('click', null);
+
+    expect(component.totalVotes).toBe(1);
   });
 });
