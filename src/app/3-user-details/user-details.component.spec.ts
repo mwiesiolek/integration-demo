@@ -4,16 +4,31 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { UserDetailsComponent } from './user-details.component';
+import {Router, ActivatedRoute} from "@angular/router";
+import {Observable} from "rxjs";
 
-xdescribe('UserDetailsComponent', () => {
+class RouterStub {
+  navigate(params) {
+    // dummy implementation
+  }
+}
+
+class ActivatedRouteStub {
+  params: Observable<any> = Observable.empty();
+}
+
+describe('UserDetailsComponent', () => {
   let component: UserDetailsComponent;
   let fixture: ComponentFixture<UserDetailsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UserDetailsComponent ]
-    })
-    .compileComponents();
+      declarations: [ UserDetailsComponent ],
+      providers: [
+        { provide: Router, useClass: RouterStub },
+        { provide: ActivatedRoute, useClass: ActivatedRouteStub }
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -24,5 +39,14 @@ xdescribe('UserDetailsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('shoud redirect user to users page after saving', () => {
+    let router = TestBed.get(Router);
+    let spy = spyOn(router, 'navigate');
+
+    component.save();
+
+    expect(spy).toHaveBeenCalledWith(['users']);
   });
 });
