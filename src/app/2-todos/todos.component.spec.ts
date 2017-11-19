@@ -40,4 +40,20 @@ describe('TodosComponent', () => {
 
     expect(component.todos.length).toBe(3);
   });
+
+/*  it('should load todos from server (promise)', fakeAsync(() => {
+    // dependecy from app.module, not from component->providers if defined
+    let service = TestBed.get(TodoService);
+
+    // Promise.resolve
+    spyOn(service, 'getTodos').and.returnValue(Observable.from([ [ 1, 2, 3 ] ]));
+    // get provider defined in component
+    // fixture.debugElement.injector.get(TodoService)
+
+    // calls ngoninit
+    fixture.detectChanges();
+
+    tick();
+    expect(component.todos.length).toBe(3);
+  }));*/
 });
